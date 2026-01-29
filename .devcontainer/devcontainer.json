@@ -1,0 +1,31 @@
+// For format details, see https://aka.ms/devcontainer.json. 
+{
+    "name": "recap-template-r-medium",
+    "image": "ghcr.io/recap-org/r:2026-q1",
+    // 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
+    // "features": {},
+    // 👇 Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "RDebugger.r-debugger",
+                "REditorSupport.r",
+                "quarto.quarto",
+                "James-Yu.latex-workshop"
+            ],
+            "settings": {
+                "r.bracketedPaste": true,
+                "r.rterm.linux": "/usr/local/bin/radian",
+                "r.plot.useHttpgd": true,
+                "latex-workshop.formatting.latex": "tex-fmt"
+            }
+        }
+    },
+    // 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+    // 👇 Bind local folders into the container
+    "mounts": [
+        // Mount a folder containing external raw data into the project's data/raw folder.
+        // "source=${localEnv:HOME}${localEnv:USERPROFILE}/data,target=${containerWorkspaceFolder}/data/raw,type=bind,consistency=cached",
+    ]
+}
