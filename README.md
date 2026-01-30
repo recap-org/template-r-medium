@@ -67,22 +67,20 @@ This template is organized as follows
 ├── LICENSE
 ├── README.md
 ├── assets
-│   └── static
-├── bin
-│   └── src
-├── data
-│   ├── processed
-│   └── raw
-├── Makefile
-├── _quarto.yaml
-├── renv
-├── renv.lock
-├── src
-│   ├── data.qmd
-│   ├── main.qmd
-│   └── lib
-├── tests
+│   └── static # where images, latex bibliography and other static assets live (committed to git)
 └── library.bib
+├── data
+│   ├── raw # raw data goes here (committed to git)
+│   └── processed # processed data goes here (not committed to git)
+├── src
+│   ├── data.qmd # process raw data into clean data
+│   ├── main.qmd # generate the final report
+│   └── lib # helper functions
+├── tests # test scripts go here
+├── bin # where generated reports are stored
+├── Makefile # orchestrates the build steps (data.qmd -> main.qmd); also runs tests; see below for details
+├── _quarto.yaml # configuration for Quarto
+└── .lintr # configuration for R linting
 ```
 
 #### Step 1: cleaning raw data
@@ -108,6 +106,11 @@ In the terminal, you can run
 make
 ```
 to run the analysis all at once. This will execute our two steps: compile `./src/data.qmd` and then `./src/main.qmd`.
+
+Run to get more details on the available commands:
+```bash
+make help 
+```
 
 You can customize `./Makefile` to change how the build steps are executed. 
 

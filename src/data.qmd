@@ -8,13 +8,13 @@ editor:
 ```{r}
 #| label: setup
 
-# load packages
+# load packages; hide startup messages for pretty output
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(modelsummary))
 
-# read data
+# load data; we know the column types, so we can suppress the messages
 source("./src/lib/io.R")
-df <- read_csv("./data/raw/data.csv")
+df <- read_csv("./data/raw/data.csv", show_col_types = FALSE)
 ```
 
 ```{r}
@@ -26,6 +26,7 @@ df <- df |> mutate(
   exam_score = exam_score / 100
 )
 
+# save the cleaned data in the processed data folder for use in analysis
 write_csv(df, "./data/processed/data.csv")
 ```
 

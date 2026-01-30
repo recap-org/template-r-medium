@@ -3,6 +3,10 @@ testthat::test_that(
   {
     library(tidyverse)
     withr::local_dir("..")
+
+    if (!file.exists("./data/processed/data.csv")) {
+      stop("File ./data/processed/data.csv not found; can't test it!")
+    }
     df <- read_csv("./data/processed/data.csv")
     testthat::expect_gte(min(df$hours_studied), 0)
     testthat::expect_gte(min(df$sleep_hours), 0)
