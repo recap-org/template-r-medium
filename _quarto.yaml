@@ -4,7 +4,7 @@ project:
 
 author: "Morgan Doe"
 
-bibliography: ./assets/static/references.bib
+bibliography: ./assets/references.bib
 
 editor:
     render-on-save: false
