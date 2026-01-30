@@ -7,36 +7,16 @@ GREEN_END = \033[0m
 # ---- Define target paths ----
 # R targets
 R_LIBS = $(wildcard ./src/lib/*.R)
-R_DATA = $(patsubst ./src/data/%.qmd, ./bin/src/data/%.pdf, $(wildcard ./src/data/*.qmd))
-R_ANALYSIS = $(patsubst ./src/analysis/%.qmd, ./bin/src/analysis/%.pdf, $(wildcard ./src/analysis/*.qmd))
 
 # LaTex targets
 PDF_FILES = $(patsubst ./tex/%,./bin/tex/%.pdf,$(wildcard ./tex/*)) 
 
 
 # ---- Main targets ----
-all: $(R_ANALYSIS) 
-.SECONDARY: $(R_DATA)
+all: ./bin/src/main.pdf
 .PHONY: all clean fresh clear-cache initialize
 
 # ---- functions ----
-
-# build_tex
-# -----------
-# Compiles a LaTeX file in ./tex/DIR/main.tex and copies the resulting PDF to ./bin/tex/DIR.pdf
-# Arguments:
-#   $1 - Path to the LaTeX main.tex file (e.g., tex/article/main.tex)
-define build_tex
-	$(eval TARGET := $(patsubst tex/%/main.tex,bin/tex/%.pdf,$(1)))
-	@echo "📝 $(GREEN_START)Compiling $(1) -> $(TARGET)...$(GREEN_END)"
-	@mkdir -p ./bin/tex/
-	@cd $(dir $(1)) &&\
-		latexmk -pdf -quiet\
-		-interaction=nonstopmode $(notdir $(1))
-	@cp $(basename $(1)).pdf $(TARGET)
-	@echo "✅ $(GREEN_START)Done!$(GREEN_END)"
-endef
-
 
 # build_qmd
 # -----------
@@ -57,12 +37,12 @@ define build_R
 endef
 
 # ---- Step 1: Data ----
-./bin/src/data/%.pdf: ./src/data/%.qmd $(R_LIBS)
+./bin/src/data.pdf: ./src/data.qmd $(R_LIBS)
 	@echo "🗄️ $(GREEN_START)Data processing$(GREEN_END)"
 	@$(call build_qmd,$<)
 
 # ---- Step 2: Analysis ----
-./bin/src/analysis/%.pdf: ./src/analysis/%.qmd $(R_DATA) $(R_LIBS)
+./bin/src/main.pdf: ./src/main.qmd ./bin/src/data.pdf $(R_LIBS)
 	@echo "📊 $(GREEN_START)Running analysis$(GREEN_END)"
 	@$(call build_qmd,$<)
 

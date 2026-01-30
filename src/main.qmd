@@ -14,8 +14,14 @@ suppressPackageStartupMessages(library(modelsummary))
 source("./src/lib/io.R")
 
 # load data
-df <- read_csv("./data/processed/data.csv")
+df <- read_csv("./data/processed/data.csv", show_col_types = FALSE)
 ```
+
+# Introduction
+
+This paper aims to analyze the relationship between students' exam scores and various predictors such as hours studied, sleep hours, attendance percentage, and previous scores. @Doe found that hours studied and attendance percentage were significant predictors of exam scores [@Doe]. This analysis seeks to validate and extend those findings using a more comprehensive dataset.
+
+# Results
 
 ```{r}
 #| label: analysis
@@ -33,7 +39,6 @@ models <- list(
 
 m <- modelsummary(models, output = "tinytable")
 m # show the table in the quarto report
-save_table(m, "table") # save the table to ./assets/tables/table.tex; see ./src/lib/io.R for documentation
 ```
 
 ```{r}
@@ -41,5 +46,9 @@ save_table(m, "table") # save the table to ./assets/tables/table.tex; see ./src/
 #| fig-cap: Coefficient plot
 
 modelplot(models)
-save_figure("figure") # save the figure to ./assets/figures/figure.pdf; see ./src/lib/io.R for documentation
 ```
+
+![Monkey in the city](../assets/static/dk.jpg)
+
+
+# References

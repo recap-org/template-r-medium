@@ -78,37 +78,38 @@ This template is organized as follows
 ├── renv
 ├── renv.lock
 ├── src
-│   ├── analysis
-│   ├── data
+│   ├── data.qmd
+│   ├── main.qmd
 │   └── lib
 ├── tests
 └── library.bib
 ```
 
-### From data cleaning to document production
-
-When running the command `make` in the terminal, this template uses GNU make to execute three steps: 
-
-1. **Clean raw data.** Run all the scripts in the `./src/data` directory
-2. **Do the analysis and produce the report.** Run the script in the `./src/analysis` directory
-
-You can customize `./Makefile` to change how the build steps are executed. 
-
 #### Step 1: cleaning raw data
 
 The raw data should be placed in the `./data/raw` directory, and committed to git (unless it is very large, in which case you should consider alternative storage solutions). 
 
-The code that processes that data into raw data should be a series of Quarto `.qmd` scripts placed in the `./src/data` directory. Each script should produce a series of clean datasets, to be placed in the `./data/processed` directory. Each script should be able to run in parallel (i.e., they should not depend on previous scripts). 
+The file `./src/data.qmd` turns raw data into clean, processed data that is ready for analysis. It stores this data in the `./data/processed` directory. 
 
-Using Quarto has a series of advantages. First, it always produces a single, traceable `.pdf` output that can be used for build scripts. Second, Quarto provides easy to read output. Third, Quarto has a cache feature that can dramatically speed up code re-execution. 
+Using Quarto has a series of advantages. First, it always produces a single, traceable `.pdf` output that can report useful quality checks and be used for build scripts. Second, Quarto provides easy to command line read output. Third, Quarto has a cache feature that can dramatically speed up code re-execution. 
 
-#### Step 2: doing the analysis: ./src/analysis/main.qmd
+#### Step 2: producing the report
 
-The code that does the analysis uses the processed data to procude tables and figures used in the LaTeX documents. This code should be a Quarto `.qmd` script placed in the `./src/analysis` directory. The script takes the processed data in `./data/processed` as inputs. It produces a pdf report in `./bin/src/analysis/`.
+The file `./src/main.qmd` uses the processed data to produce the final report. It generates a pdf at `./bin/src/main.pdf`.
 
 ### Helper functions
 
 Helper functions are shared across your data and analysis code. They are declared in `.R` files that are placed in `./src/lib`. Think of these helper functions as a quasi-R package that accompanies the project. As such, each of these functions should be properly documented so that all collaborators understand how they work.  
+
+### Doing the whole analysis from scratch
+
+In the terminal, you can run 
+```bash
+make
+```
+to run the analysis all at once. This will execute our two steps: compile `./src/data.qmd` and then `./src/main.qmd`.
+
+You can customize `./Makefile` to change how the build steps are executed. 
 
 ### Tests
 

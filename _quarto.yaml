@@ -4,6 +4,8 @@ project:
 
 author: "Morgan Doe"
 
+bibliography: library.bib
+
 editor:
     render-on-save: false
 
