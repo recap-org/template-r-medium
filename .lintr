@@ -1,3 +1,0 @@
-linters: linters_with_defaults(
-    indentation_linter(2)
-  )

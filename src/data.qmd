@@ -1,8 +1,10 @@
 ---
-title: "Data"
+title: "Data cleaning"
+# date automatically set to today
 date: "`r Sys.Date()`"
-editor: 
-    render-on-save: false
+# see ./_quarto.yml to change other options
+# (e.g., author, rendering format (pdf by default), ...)
+# these options apply to all .qmd files in the project 
 ---
 
 ```{r}
@@ -12,28 +14,26 @@ editor:
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(modelsummary))
 
-# load data; we know the column types, so we can suppress the messages
+# load functions
 source("./src/lib/io.R")
+
+# read data; we know the column types, so we can suppress the messages
+
 df <- read_csv("./data/raw/data.csv", show_col_types = FALSE)
 ```
 
 ```{r}
-#| label: data cleaning
+#| label: tbl-data-cleaning
+#| tbl-cap: Data summary
 
+# Data transformation: convert percentages to proportions
 df <- df |> mutate(
   attendance_percent = attendance_percent / 100,
   previous_scores = previous_scores / 100,
   exam_score = exam_score / 100
 )
 
-# save the cleaned data in the processed data folder for use in analysis
-write_csv(df, "./data/processed/data.csv")
-```
-
-```{r}
-#| label: reporting
-#| tbl-cap: Data summary
-
+# Show summary statistics for the dataset
 datasummary_skim(
   df,
   fun_numeric = list(
@@ -43,3 +43,11 @@ datasummary_skim(
   escape = FALSE
 )
 ```
+
+```{r}
+#| label: data-write
+
+# save data for analysis
+write_csv(df, "./data/processed/data.csv")
+```
+

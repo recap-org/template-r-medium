@@ -1,6 +1,10 @@
 ---
 title: "Analysis"
+# date automatically set to today
 date: "`r Sys.Date()`"
+# see ./_quarto.yml to change other options
+# (e.g., author, rendering format (pdf by default), ...)
+# these options apply to all .qmd files in the project 
 ---
 
 ```{r}
@@ -19,13 +23,14 @@ df <- read_csv("./data/processed/data.csv", show_col_types = FALSE)
 
 # Introduction
 
-This paper aims to analyze the relationship between students' exam scores and various predictors such as hours studied, sleep hours, attendance percentage, and previous scores. @Doe found that hours studied and attendance percentage were significant predictors of exam scores [@Doe]. This analysis seeks to validate and extend those findings using a more comprehensive dataset.
+Reproducibility is now widely recognized as a central concern in empirical research. Recent work by @lambda2024defaults emphasizes that many irreproducible results stem not from flawed methods, but from undocumented defaults, missing metadata, and fragile workflows. Here, we argue that even _entirely plausible_ results may _fail to reproduce_ when computational environments are not explicitly specified.
 
-# Results
+This paper follows that perspective. Using a simple dataset on student outcomes [@student_exam_scores_kaggle], we estimate a conventional regression model and present the results in tabular and graphical form (Section @sec-results). The goal is not to uncover new empirical insights, but to provide a compact, transparent example that can be reproduced end-to-end with minimal effort.
+
+# Results {#sec-results}
 
 ```{r}
 #| label: analysis
-#| tbl-cap: Regression table
 
 models <- list(
   lm(exam_score ~ previous_scores, data = df),
@@ -33,22 +38,43 @@ models <- list(
 )
 ```
 
-```{r}
-#| label: table
-#| tbl-cap: Regression table
+We estimate the following linear model:
 
-m <- modelsummary(models, output = "tinytable")
-m # show the table in the quarto report
+$$
+\text{exam}_i = \beta_0 + \beta_1 \text{hours\_studied}_i + \beta_2 \text{sleep\_hours}_i
++ \beta_3 \text{attendance}_i + \beta_4 \text{previous\_scores}_i + \varepsilon_i,
+$$
+
+where $\varepsilon_i$ denotes an idiosyncratic error term. @tbl-table reports the estimated coefficients, and @fig-figure visualizes them with 95% confidence intervals.
+
+```{r}
+#| label: tbl-table
+#| tbl-cap: Regression of Exam Scores on Study Inputs
+
+modelsummary(models)
 ```
 
 ```{r}
-#| label: plot
-#| fig-cap: Coefficient plot
+#| label: fig-figure
+#| fig-cap: Coefficient Estimates with Confidence Intervals
 
 modelplot(models)
 ```
 
-![Monkey in the city](../assets/static/dk.jpg)
+The results are broadly consistent with intuition. In particular:
 
+1. prior performance is strongly predictive of current exam outcomes,
+2. attendance is positively associated with scores, and
+3. study time has a modest but precisely estimated effect.
+
+For completeness, we note three features of the empirical setup:
+
+- __Measurement.__ All variables are measured at the individual level.
+- __Illustration.__ The sample is purely illustrative.
+- __Linearity.__ The specification is intentionally linear.
+
+![An External Image Included for Demonstration Purposes](../assets/static/dk.jpg){#fig-donkeykong}
+
+Figure @fig-donkeykong provides an external visual reference included solely to demonstrate the handling of figures.
 
 # References

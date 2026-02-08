@@ -1,87 +1,79 @@
-# RECAP Template : R - Medium
+# RECAP Template: R - Medium
 
 ## Purpose
 
-This repository is a [RECAP](https://recap-org.github.io) template for medium-sized academic data projects with R. It is designed to run in cloud IDEs (e.g., GitHub Codespaces) and local IDEs (VS Code, RStudio). Key features:
+This repository is a **[RECAP](https://recap-org.github.io)** template for **medium academic data projects using R**, such as final course projects, applied methods assignments, or replication exercises using raw data.
 
-- A clear workflow that converts raw data into processed data, and analyzes the processed to produce a full pdf report. 
-- Built-in practices for reproducible research: automated build pipelines ([Make](https://www.gnu.org/software/make/make.html)) and testing ([testthat](https://testthat.r-lib.org/)).
-- A containerized, reproducible software environment that allows running this template on the browser.
-- Documentation and tutorials (see the [RECAP](https://recap-org.github.io) site) to help you get started and teach collaborators.
+It provides a ready-to-use project structure and a reproducible execution environment that can be run:
+- directly in the browser (e.g., GitHub Codespaces),
+- or locally in common IDEs such as VS Code, Positron, or RStudio.
 
-The building blocks of this template are:
-
-1. Clean raw data to produce processed data
-2. Analyse the processed data to produce a final report in PDF format. 
-
-These two steps are orchestrated using Make, which ensures that each step is only re-executed when necessary.
+For guidance on how to run this template, choose an environment, or collaborate with others, see the main [RECAP documentation](https://recap-org.github.io).
 
 ## Getting started
 
-To get started, above the file list, click **Use this template**.
-
-![Use this template button](https://docs.github.com/assets/cb-76823/mw-1440/images/help/repository/use-this-template-button.webp)
+To get started, click the **Use this template** button above the file list ⬆️.
 
 You have two options: 
 
 ### Try it out online
 
 1. Select **Open in a codespace**. 
-2. Wait for the codespace to be created and started. **This may take up to 20 minutes.** ☕
+2. Wait for the codespace to be created and started. **This may take up to 5 minutes.** ☕
 3. Once the codespace is ready, you can follow the instructions in the **Basic demo** section below.
 
 ### Make your own copy
 
-1. Select **Create a new repository**.
-2. Once it is ready, you can: 
-    - Open it in GitHub Codespaces by clicking the green **Code** button and selecting **Open with Codespaces > New codespace**.
-    - Clone it to your local machine use it locally. You can use the provided containerized environment for a one-click install of all the dependencies (documentation for [VS Code](https://code.visualstudio.com/docs/remote/containers) and for Positron)
+If you want to keep working on this project (locally or in the cloud), create your own copy of the template.
+
+The RECAP documentation explains:
+- how to create your own repository,
+- how to run the template locally or in an isolated environment,
+- and how to choose the setup that fits your needs.
+
+➡️ See **[How to run a RECAP template](https://recap-org.github.io/docs/running-templates/)** on the RECAP website.
 
 ## Demo
 
-First, install the R packages used in this template. Open an R console and type:
+First, install the R packages used in this template. Open a terminal and type:
 
-```r
-install.packages(c("tidyverse", "modelsummary", "testthat"))
+```bash
+Rscript -e "install.packages(c('tidyverse', 'modelsummary', 'testthat'))"
 ```
 
-Open a terminal in your IDE and type:
+Then, open a terminal and type: 
 
 ```bash
 make
 ```
 
-This will run the data cleaning script, then do the analysis, and finally compile all the LaTeX documents. You will find the final documents in the `./bin/tex` directory and intermediary reports of the data cleaning and analysis steps in the `./bin/src` directory.
-
-Run the tests by opening a terminal and typing: 
-
-```bash
-make tests
-```
+This will execute the data cleaning step in `./src/data.qmd`, then render the report in `./src/main.qmd`. You will find a PDF report with some basic data analysis and a photo in `./out/src/main.pdf`.
 
 ## Using this template
 
 This template is organized as follows
 
 ```bash
-├── LICENSE
-├── README.md
-├── assets # (committed to git)
-│   ├── static # where images and other static assets live 
-│   └── references.bib # latex bibliography file
+├── LICENSE # license file
+├── README.md # this file
+├── assets
+│   ├── figures # where generated figures go (not committed to git)
+│   ├── tables # where generated tables go (not committed to git)
+│   ├── static # where external images and other static assets live (committed to git)
+│   └── references.bib # latex bibliography file (committed to git)
 ├── data
 │   ├── raw # raw data goes here (committed to git)
 │   └── processed # processed data goes here (not committed to git)
-├── src
+├── src # all the code goes here
 │   ├── data.qmd # process raw data into clean data
 │   ├── main.qmd # generate the final report
 │   └── lib # helper functions
-├── tests # test scripts go here
-├── bin # where generated reports are stored
-├── Makefile # orchestrates the build steps (data.qmd -> main.qmd); also runs tests; see below for details
 ├── _quarto.yaml # configuration for Quarto
-└── .lintr # configuration for R linting
+├── .lintr # configuration for R linting
+└── .devcontainer # configuration for the containerized environment
 ```
+
+### Producing the report
 
 #### Step 1: cleaning raw data
 
@@ -89,19 +81,11 @@ The raw data should be placed in the `./data/raw` directory, and committed to gi
 
 The file `./src/data.qmd` turns raw data into clean, processed data that is ready for analysis. It stores this data in the `./data/processed` directory. 
 
-Using Quarto has a series of advantages. First, it always produces a single, traceable `.pdf` output that can report useful quality checks and be used for build scripts. Second, Quarto provides easy to command line read output. Third, Quarto has a cache feature that can dramatically speed up code re-execution. 
+Using Quarto has a series of advantages. First, it always produces a single, traceable `.pdf` output that can report useful quality checks and be used for build pipelines. Second, Quarto provides easy to read command line output. Third, Quarto has a cache feature that can dramatically speed up code re-execution. 
 
 #### Step 2: producing the report
 
-The file `./src/main.qmd` uses the processed data to produce the final report. It generates a pdf at `./bin/src/main.pdf`.
-
-### External assets
-
-A project may also use assets that are not generated by code (e.g., external images, bibliography ...). These should be placed in `./assets/static` and committed to git. 
-
-### Helper functions
-
-Helper functions are shared across your data and analysis code. They are declared in `.R` files that are placed in `./src/lib`. Think of these helper functions as a quasi-R package that accompanies the project. As such, each of these functions should be properly documented so that all collaborators understand how they work.  
+The file `./src/main.qmd` uses the processed data to produce the final report. It generates a pdf at `./out/src/main.pdf`.
 
 ### Doing the whole analysis from scratch
 
@@ -118,20 +102,37 @@ make help
 
 You can customize `./Makefile` to change how the build steps are executed. 
 
-### Tests
+### External assets
 
-Tests are placed in the `./tests` directory. They should be files called `test-NAME.R`, with `NAME` a friendly name for your series of tests. You should specify tests to ensure that the raw data has been properly cleaned and that the helper functions work as intended. Run the tests by opening a terminal and typing: 
+A project may also use assets that are not generated by code (e.g., external images, bibliography, ...). These should be placed in `./assets/static` and committed to git. 
 
-```bash
-make tests
-```
+### Helper functions
+
+Helper functions are shared across your data and analysis code. They are declared in `.R` files that are placed in `./src/lib`. Think of these helper functions as a quasi-R package that accompanies the project. As such, each of these functions should be properly documented so that all collaborators understand how they work.  
+
 
 ### Configuration
 
 Look into the following files to tweak things as you see fit: 
 
 - `./.lintr`: R linting options
-- `./_quarto.yaml`: Quarto options
+- `./_quarto.yaml`: Quarto options; we provide a set of sane defaults
+- `./Makefile`: customize how build steps are executed
+
+## Software environment
+
+This template comes with a reproducible execution environment that includes R, Quarto,LaTeX, and other useful tools. We rely on the [Dev Container](https://code.visualstudio.com/docs/devcontainers/containers) specification, which means that you can extend the environment by editting `./.devcontainer/devcontainer.json`.
+
+The exact software stack (including versions) is documented in the **[RECAP 2026 Q1 image release](https://github.com/recap-org/images/releases/tag/2026-q1)**.
+
+This information is mainly useful if you need to check versions or debug environment-specific issues.  
+You do not need to understand or modify this to use the template.
+
+## Issues and feedback
+
+If something doesn't work as expected, or if you have a suggestion for improving this template, please open an issue on this repository (Issue tab ⬆️).
+
+You don't need to be sure that something is "really a bug" — unclear instructions, confusing behavior, or small setup problems are all worth reporting. Your feedback helps improve RECAP for everyone.
 
 ## Credits
 
@@ -139,4 +140,3 @@ We thank
 
 - [Jason Leung](https://unsplash.com/@ninjason?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) on [Unsplash](https://unsplash.com/photos/donkey-kong-arcade-game-screen-with-1981-date-c5tiCWrZADc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash) for that nice Donkey Kong photo.
 - [grandmaster07](https://www.kaggle.com/grandmaster07) for the student exam score dataset analysis published on [Kaggle](https://www.kaggle.com/datasets/grandmaster07/student-exam-score-dataset-analysis)
-
