@@ -123,7 +123,7 @@ Look into the following files to tweak things as you see fit:
 
 This template comes with a reproducible execution environment that includes R, Quarto,LaTeX, and other useful tools. We rely on the [Dev Container](https://code.visualstudio.com/docs/devcontainers/containers) specification, which means that you can extend the environment by editting `./.devcontainer/devcontainer.json`.
 
-The exact software stack (including versions) is documented in the **[RECAP 2026 Q1 image release](https://github.com/recap-org/images/releases/tag/2026-q1)**.
+The exact software stack (including versions) is documented in the **[RECAP 2026-q1 image release](https://github.com/recap-org/images/releases/tag/2026-q1)**.
 
 This information is mainly useful if you need to check versions or debug environment-specific issues.  
 You do not need to understand or modify this to use the template.
