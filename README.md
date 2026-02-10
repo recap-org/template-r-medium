@@ -75,32 +75,50 @@ This template is organized as follows
 
 ### Producing the report
 
+This template uses `make` to orchestrate the different steps of the analysis.  
+If you are not familiar with `make`, we strongly recommend reading the following page first: [Building your project with make](https://recap-org.github.io/docs/building-with-make)
+
+What follows focuses on how this template is structured, not on how `make` works internally.
+
 #### Step 1: cleaning raw data
 
-The raw data should be placed in the `./data/raw` directory, and committed to git (unless it is very large, in which case you should consider alternative storage solutions). 
+Raw data should be placed in the `./data/raw` directory and committed to git (unless it is very large, in which case you should consider alternative storage solutions).
 
-The file `./src/data.qmd` turns raw data into clean, processed data that is ready for analysis. It stores this data in the `./data/processed` directory. 
+The file `./src/data.qmd` turns raw data into clean, processed data.  
+The processed data is written to the `./data/processed` directory.
 
-Using Quarto has a series of advantages. First, it always produces a single, traceable `.pdf` output that can report useful quality checks and be used for build pipelines. Second, Quarto provides easy to read command line output. Third, Quarto has a cache feature that can dramatically speed up code re-execution. 
+We use a Quarto document for this step for several reasons:
+
+- it produces a single, traceable output (`.pdf`) that can be used in build pipelines,
+- it provides readable command-line output,
+- it supports caching, which can dramatically speed up re-execution.
 
 #### Step 2: producing the report
 
-The file `./src/main.qmd` uses the processed data to produce the final report. It generates a pdf at `./out/src/main.pdf`.
+The file `./src/main.qmd` uses the processed data to produce the final report.  
+It generates a PDF at `./out/src/main.pdf`.
 
-### Doing the whole analysis from scratch
+### Running the full analysis
 
-In the terminal, you can run 
+To run the full analysis from scratch, use:
+
 ```bash
 make
 ```
-to run the analysis all at once. This will execute our two steps: compile `./src/data.qmd` and then `./src/main.qmd`.
 
-Run to get more details on the available commands:
+This command executes both steps in the correct order:
+1. compile `./src/data.qmd`,
+2. compile `./src/main.qmd`.
+
+Every RECAP template also provides a built-in way to discover available commands.  
+If you are unsure how to interact with the project, start by running:
+
 ```bash
-make help 
+make
 ```
 
-You can customize `./Makefile` to change how the build steps are executed. 
+You can customize `./Makefile` to change how the build steps are executed.  
+For an overview of the design principles behind this setup, see the `make` documentation linked above.
 
 ### External assets
 
