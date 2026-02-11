@@ -23,9 +23,10 @@
     },
     // 👇 Bind local folders into the container
     "mounts": [
-        // Mount a folder containing external raw data into the project's data/raw folder.
+        // 👇 Mount a folder containing external raw data into the project's data/raw folder.
         // "source=${localEnv:HOME}${localEnv:USERPROFILE}/data,target=${containerWorkspaceFolder}/data/raw,type=bind,consistency=cached",
-        // Mount a volume containing external raw data into the project's data/raw folder.
+
+        // 👇 Mount a volume containing external raw data into the project's data/raw folder.
         // "source=volume-name,target=${containerWorkspaceFolder}/data/raw,type=volume",
     ]
 }
