@@ -66,4 +66,5 @@ rsconnect/
 # quarto files and folders
 /.quarto/
 *_files
+**/*.quarto_ipynb
 

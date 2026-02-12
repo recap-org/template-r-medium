@@ -1,10 +1,11 @@
 ---
 title: "Data cleaning"
-# date automatically set to today
-date: "`r Sys.Date()`"
+format: pdf
 # see ./_quarto.yml to change other options
-# (e.g., author, rendering format (pdf by default), ...)
+# (e.g., author, date (default: last time this file was edited), ...)
 # these options apply to all .qmd files in the project 
+# you can also change these options here
+# but this will apply just to this file
 ---
 
 ```{r}
