@@ -68,6 +68,7 @@ This template is organized as follows
 │   ├── data.qmd # process raw data into clean data
 │   ├── main.qmd # generate the final report
 │   └── lib # helper functions
+├── out # where generated outputs are stored (not committed to git)
 ├── _quarto.yaml # configuration for Quarto
 ├── .lintr # configuration for R linting
 └── .devcontainer # configuration for the containerized environment

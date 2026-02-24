@@ -1,6 +1,6 @@
 export
 
-# ---- Define important paths ----
+# ---- Define targets ----
 # R targets
 LIBS = $(wildcard ./src/lib/*.R)
 
@@ -12,12 +12,12 @@ all: ./out/src/main.pdf
 # ---- Build rules ----
 
 # Step 1: Data
-./out/src/data.pdf: ./src/data.qmd $(R_LIBS)
+./out/src/data.pdf: ./src/data.qmd $(LIBS)
 	@echo "🗄️ $(GREEN_START)Data processing$(GREEN_END)"
 	@$(call build_qmd,$<)
 
 # Step 2: Analysis
-./out/src/main.pdf: ./src/main.qmd ./out/src/data.pdf $(R_LIBS)
+./out/src/main.pdf: ./src/main.qmd ./out/src/data.pdf $(LIBS)
 	@echo "📊 $(GREEN_START)Running analysis$(GREEN_END)"
 	@$(call build_qmd,$<)
 
@@ -26,6 +26,7 @@ all: ./out/src/main.pdf
 fresh: ## Delete all targets
 	@echo "😵 $(GREEN_START)Deleting all targets and intermediary files...$(GREEN_END)"
 	@find ./out -type f -name "*.pdf" -delete
+	@find ./out -type f -name "*.log" -delete
 	@find ./assets/tables -type f ! -name ".gitignore" -delete
 	@find ./assets/figures -type f ! -name ".gitignore" -delete
 	@find ./data/processed -type f ! -name ".gitignore" -delete
@@ -71,4 +72,6 @@ endef
 
 # --- I/O colors ---
 GREEN_START = \033[1;32m
-GREEN_END = \033[0m
+GREEN_END = \033[
+RED_START = \033[1;31m
+RED_END = \033[0m
